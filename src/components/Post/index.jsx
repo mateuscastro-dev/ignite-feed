@@ -76,7 +76,9 @@ export function Post(props) {
         />
 
         <footer>
-          <button type='submit'>Publicar</button>
+          <button type='submit' disabled={!newComment}>
+            Publicar
+          </button>
         </footer>
       </form>
 
