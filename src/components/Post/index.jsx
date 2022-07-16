@@ -23,10 +23,15 @@ export function Post(props) {
     addSuffix: true,
   })
 
-  function onCreateNewComment(event) {
+  function handleCreateNewComment(event) {
     event.preventDefault()
     setComments([...comments, newComment])
     setNewComment('')
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => comment !== commentToDelete)
+    setComments(commentsWithoutDeletedOne)
   }
 
   return (
@@ -60,10 +65,11 @@ export function Post(props) {
         })}
       </div>
 
-      <form className={css.commentForm} onSubmit={onCreateNewComment}>
+      <form className={css.commentForm} onSubmit={handleCreateNewComment}>
         <strong>Deixe seu feedback</strong>
 
         <textarea
+          required
           placeholder='Escreva um comentário...'
           value={newComment}
           onChange={event => setNewComment(event.target.value)}
@@ -76,7 +82,7 @@ export function Post(props) {
 
       <div className={css.commentList}>
         {comments.map(comment => (
-          <Comment key={comment} content={comment} />
+          <Comment key={comment} comment={comment} onDeleteComment={deleteComment} />
         ))}
       </div>
     </article>
