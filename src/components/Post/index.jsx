@@ -1,38 +1,52 @@
+import { format, formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+
 import css from './styles.module.css'
 
 import { Avatar } from '../Avatar'
 import { Comment } from '../Comment'
 
-export function Post() {
+export function Post(props) {
+  const { author, publishedAt, content } = props
+
+  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm", {
+    locale: ptBR,
+  })
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  })
+
   return (
     <article className={css.post}>
       <header>
         <div className={css.author}>
-          <Avatar hasBorder />
+          <Avatar hasBorder src={author.avatarUrl} />
 
           <div className={css.authorInfo}>
-            <strong>Mateus Castro</strong>
-            <span>Frontend Developer</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
 
-        <time title='11 de Julho às 08:00' dateTime='2022-07-11 08:00:00-'>
-          Publicado há 1h
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={css.content}>
-        <p>Fala galeraa 👋</p>
-        <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento
-          da Rocketseat. O nome do projeto é DoctorCare 🚀
-        </p>
-        <p>
-          👉 <a href='#'>jane.design/doctorcare</a>
-        </p>
-        <p>
-          <a href='#'>#novoprojeto</a> <a href='#'>#nlw</a> <a href='#'>#rocketseat</a>
-        </p>
+        {content.map((item, index) => {
+          if (item.type === 'link') {
+            return (
+              <p key={index}>
+                <a href='#'>{item.content}</a>
+              </p>
+            )
+          }
+
+          return <p key={index}>{item.content}</p>
+        })}
       </div>
 
       <form className={css.commentForm}>

@@ -11,7 +11,7 @@ export function Sidebar() {
       <img className={css.cover} src={coverImage} />
 
       <div className={css.profile}>
-        <Avatar hasBorder />
+        <Avatar hasBorder src='https://github.com/mateuscastro-dev.png' />
         <strong>Mateus Castro</strong>
         <span>Frontend Developer</span>
       </div>

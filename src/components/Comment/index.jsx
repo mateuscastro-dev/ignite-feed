@@ -6,7 +6,7 @@ import css from './styles.module.css'
 export function Comment() {
   return (
     <div className={css.comment}>
-      <Avatar />
+      <Avatar src='https://github.com/mateuscastro-dev.png' />
 
       <div className={css.commentBox}>
         <div className={css.commentContent}>
